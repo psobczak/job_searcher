@@ -5,15 +5,18 @@ import re
 
 class JustJoinIT(Page):
     """
-    Represents https://justjoinit.pl
+    Represents https://justjoin.it
     """
 
-    def __init__(self, url):
-        super().__init__(url)
-        self.page = self.get_page()
-        self.base_url = 'https://justjoinit.pl'
+    def __init__(self, city, category):
+        super().__init__()
+        self.base_url = 'https://justjoin.it'
+        self.city = city
+        self.category = category
+        self.complete_url = f'{self.base_url}/{city}/{category}'
 
     def get_job_offers(self):
+        """ Finds job offers containers, create JobOffer objects and adds them to the page object"""
         for container in self.get_job_offers_containers('li', 'offer-item', 'testing'):
             title = container.select_one('span.title').text
 
@@ -34,9 +37,4 @@ class JustJoinIT(Page):
             self.job_offers.append(job_offer)
 
 
-j = JustJoinIT('https://justjoin.it/wroclaw/testing')
-# print(len(j.get_job_offers_containers()))
 
-j.get_job_offers()
-
-j.print_offers()

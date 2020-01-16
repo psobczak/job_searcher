@@ -7,9 +7,10 @@ class NBC(Page):
     Represents https://nbc.com.pl
     """
 
-    def __init__(self, url):
-        super().__init__(url)
-        self.page = self.get_page()
+    def __init__(self, keyword):
+        super().__init__()
+        self.city = keyword
+        self.complete_url = f'https://www.nbc.com.pl/?lang=pl&post_type=offer&s={self.city}'
 
     def get_job_offers(self):
         containers = self.get_job_offers_containers('div', 'col-sm-8', 'post', 'item', 'job-offer')
@@ -23,6 +24,3 @@ class NBC(Page):
             self.job_offers.append(job_offer)
 
 
-n = NBC('https://www.nbc.com.pl/?lang=pl&post_type=offer&s=Wroc%C5%82aw')
-n.get_job_offers()
-n.print_offers()
