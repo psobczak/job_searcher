@@ -22,22 +22,23 @@ class Page:
         logging.info(f'Parsing and returning HTML content of {url}')
         return soup(r, 'html.parser')
 
-    def add_job_offer(self, job_offer):
+    def _add_job_offer(self, job_offer):
         if isinstance(job_offer, JobOffer):
             self.job_offers.append(job_offer)
             logging.info(f'Added {str(job_offer)} to list of job offers')
         else:
             raise TypeError(f'Can not add {type(job_offer)} to page\'s job offers')
 
-    def get_job_offers_containers(self, tag, *args):
+    def _get_job_offers_containers(self, tag, *args):
         # TODO Figure how to get only exact matches with container classes
         page = self._get_page(self.complete_url)
-        return page.find_all(tag, *args)
+        return page.find_all(tag, class_=[*args])
 
     def _find_job_offer_links(self):
+        """Extracts job offer links from containers. Returns a list of links"""
         ...
 
-    def get_job_offers(self):
+    def create_job_offers(self):
         ...
 
     def print_offers(self):

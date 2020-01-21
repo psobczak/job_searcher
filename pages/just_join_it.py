@@ -37,7 +37,7 @@ class JustJoinIT(Page):
     def _find_job_offer_links(self):
         """Extracts job offer links from containers. Returns a list of links"""
         links = []
-        job_offer_containers = self.get_job_offers_containers('li', 'offer-item', 'testing')
+        job_offer_containers = self._get_job_offers_containers('li', 'offer-item', 'testing')
         for container in job_offer_containers:
             link = container.select_one('a.item')['href']
             link = self.base_url + link
@@ -51,7 +51,7 @@ class JustJoinIT(Page):
 
             title = page.select_one('span.title').text
 
-            # Use re to match max and min salary
+            # Use re to match max and min salary - eg. 7 000 - 14 000
             salary = page.select_one('span.salary').text
             salary_raw = re.match('(\d*\s\d*)\s+-\s+(\d*\s\d*)', salary)
             if salary_raw is not None:

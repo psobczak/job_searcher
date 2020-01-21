@@ -13,7 +13,7 @@ class TestJustJoinIt(unittest.TestCase):
 
     def test_finding_job_offers(self):
         just = JustJoinIT('wroclaw', 'testing')
-        count_job_offers = len(just.get_job_offers().job_offers)
+        count_job_offers = len(just.create_job_offers().job_offers)
         self.assertGreater(count_job_offers, 0)
 
 
