@@ -2,6 +2,7 @@ import re
 
 from job_offer import JobOffer
 from pages.page import Page
+from webdriver import WebDriver
 
 ALLOWED_CITIES = [
     'waraszawa', 'krakow', 'wroclaw', 'poznan', 'trojmiasto', 'remote', 'world',
@@ -33,11 +34,12 @@ class JustJoinIT(Page):
             raise AttributeError(f'Attribute CATEGORY must be one of the following: {ALLOWED_CATEGORIES}')
         self.complete_url = f'{self.base_url}/{city}/{category}'
         self.job_offer_links = self._find_job_offer_links()
+        self.driver = WebDriver()
 
     def _find_job_offer_links(self):
         """Extracts job offer links from containers. Returns a list of links"""
         links = []
-        job_offer_containers = self._get_job_offers_containers('li', 'offer-item', 'testing')
+        job_offer_containers = self._get_elements_containers('li', 'offer-item', 'testing')
         for container in job_offer_containers:
             link = container.select_one('a.item')['href']
             link = self.base_url + link
@@ -47,7 +49,7 @@ class JustJoinIT(Page):
     def create_job_offers(self):
         """Loads pages from links, extracts data and creates JobOffer objects"""
         for link in self.job_offer_links:
-            page = self._get_page(link)
+            page = self._get_page(link, self.driver)
 
             title = page.select_one('span.title').text
 

@@ -7,9 +7,9 @@ class NBC(Page):
     Represents https://nbc.com.pl
     """
 
-    def __init__(self, keyword):
+    def __init__(self, city):
         super().__init__()
-        self.city = keyword
+        self.city = city
         self.complete_url = f'https://www.nbc.com.pl/?lang=pl&post_type=offer&s={self.city}'
         self.job_offer_links = self._find_job_offer_links()
 
@@ -23,13 +23,13 @@ class NBC(Page):
 
             job_offer = JobOffer(title, min_salary, max_salary, link)
             self.job_offers.append(job_offer)
-        self.driver.quit_driver()
+
         return None
 
     def _find_job_offer_links(self):
         """Extracts job offer links from containers. Returns a list of links"""
         links = []
-        job_offer_containers = self._get_job_offers_containers('div', 'col-sm-8', 'post', 'item', 'job-offer')
+        job_offer_containers = self._get_elements_containers('div', 'col-sm-8', 'post', 'item', 'job-offer')
         for container in job_offer_containers:
             link = container.select_one('a.link-absolute')['href']
             links.append(link)

@@ -33,4 +33,4 @@ class WebDriver:
             self.driver.get(url)
             return self.driver.page_source
         except:
-            pass
+            ...
