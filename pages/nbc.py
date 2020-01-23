@@ -24,8 +24,6 @@ class NBC(Page):
             job_offer = JobOffer(title, min_salary, max_salary, link)
             self.job_offers.append(job_offer)
 
-        return None
-
     def _find_job_offer_links(self):
         """Extracts job offer links from containers. Returns a list of links"""
         links = []

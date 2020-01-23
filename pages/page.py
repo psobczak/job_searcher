@@ -67,16 +67,19 @@ class Page:
 
     def print_offers(self):
         """Prints job offers. Includes a nicely formatted header for every page"""
-        source = len(f'{self.__class__.__name__} - {self.city} {self.category}')
-        padding = int((120 - source - 2) / 2)
-        header = '-' * padding, self.__class__.__name__, '-' * padding
+        if self.category:
+            header = f'| {self.__class__.__name__} | {self.city.title()} | {self.category.title()} |'
+        else:
+            header = f'| {self.__class__.__name__} | {self.city.title()} |'
 
-        print('-' * padding, f' {self.__class__.__name__} - {self.city} {self.category}', '-' * padding)
+        total_length = 100
+        padding = (total_length - len(header)) // 2
+
+        print(padding * '-', header, padding * '-')
+
         if len(self.job_offers) != 0:
             for i, job_offer in enumerate(self.job_offers):
                 print(f'{i + 1}. {job_offer}')
-        else:
-            print('-' * padding, 'no offers found', '-' * padding)
 
     def __len__(self):
         return len(self.job_offers)

@@ -2,7 +2,6 @@ import re
 
 from job_offer import JobOffer
 from pages.page import Page
-from webdriver import WebDriver
 
 ALLOWED_CITIES = [
     'waraszawa', 'krakow', 'wroclaw', 'poznan', 'trojmiasto', 'remote', 'world',
@@ -21,7 +20,7 @@ class JustJoinIT(Page):
     Represents https://justjoin.it
     """
 
-    def __init__(self, city, category):
+    def __init__(self, city, category, driver):
         super().__init__()
         self.base_url = 'https://justjoin.it'
         if city.lower() in ALLOWED_CITIES:
@@ -34,7 +33,7 @@ class JustJoinIT(Page):
             raise AttributeError(f'Attribute CATEGORY must be one of the following: {ALLOWED_CATEGORIES}')
         self.complete_url = f'{self.base_url}/{city}/{category}'
         self.job_offer_links = self._find_job_offer_links()
-        self.driver = WebDriver()
+        self.driver = driver
 
     def _find_job_offer_links(self):
         """Extracts job offer links from containers. Returns a list of links"""
@@ -64,5 +63,3 @@ class JustJoinIT(Page):
 
             job_offer = JobOffer(title, min_salary, max_salary, link)
             self.job_offers.append(job_offer)
-        self.driver.quit_driver()
-        return None
