@@ -1,3 +1,4 @@
+import abc
 import logging
 
 import requests
@@ -6,7 +7,7 @@ from bs4 import BeautifulSoup as soup
 from job_offer import JobOffer
 
 
-class Page:
+class Page(abc.ABC):
     """
     Parent class for all job offer pages
     """
@@ -55,10 +56,9 @@ class Page:
         page = self._get_page(self.complete_url)
         return page.find_all(tag, class_=[*args])
 
-    def _get_job_offer_information(self, container):
-        pass
-
-    def create_job_offers(self):
+    @abc.abstractmethod
+    def _get_job_offer_information(self, container) -> JobOffer:
+        """This method is meant to be overwritten by extending classes"""
         ...
 
     def print_offers(self):

@@ -29,5 +29,4 @@ class Alten(Page):
         title = container.select_one('h3.elementor-post__title > a').text.strip()
         link = container.select_one('h3.elementor-post__title > a')['href']
         address = container.select_one('div.elementor-post__excerpt > p').text.split('\n')[1].split(' ')[0]
-
         return JobOffer(title, 'Alten', link, address=address)
