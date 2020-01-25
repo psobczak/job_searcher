@@ -14,6 +14,7 @@ class DatabaseConnector:
     def __init__(self):
         self.path = self.DATABASE_PATH
         self.connection = self.create_connection()
+        self.create_table()
 
     def create_connection(self):
         if self.CONNECTION is None:
@@ -32,18 +33,40 @@ class DatabaseConnector:
         return self.CONNECTION
 
     def insert_into_offers(self, job_offer):
-        sql = 'INSERT INTO offers(title, source, minimum_salary, maximum_salary, link) VALUES (?, ?, ?, ?, ?)'
+        sql = f'INSERT INTO offers(' \
+              f'title, ' \
+              f'source, ' \
+              f'minimum_salary, ' \
+              f'maximum_salary, ' \
+              f'link, ' \
+              f'employer, ' \
+              f'address) ' \
+              f'VALUES (?, ?, ?, ?, ?, ?, ?)'
         with self.CONNECTION as conn:
             try:
                 if isinstance(job_offer, JobOffer):
-                    job_offer_atrs = vars(job_offer)
-                    job_offer_sql = (job_offer_atrs['title'],
-                                     job_offer_atrs['source'],
-                                     job_offer_atrs['min'],
-                                     job_offer_atrs['max'],
-                                     job_offer_atrs['link'])
+                    aaa = tuple(attribute for attribute in vars(job_offer).values())
                     cur = conn.cursor()
-                    cur.execute(sql, job_offer_sql)
+                    cur.execute(sql, aaa)
             except sqlite3.IntegrityError:
                 print('This job offer is already in database!')
+                pass
+
+    def create_table(self, table_name='offers'):
+        sql = f'CREATE TABLE IF NOT EXISTS {table_name} (' \
+              f'title TEXT NOT NULL, ' \
+              f'source TEXT NOT NULL, ' \
+              f'minimum_salary NUMERIC DEFAULT 0,' \
+              f'maximum_salary	NUMERIC DEFAULT 0, ' \
+              f'link TEXT NOT NULL, ' \
+              f'employer TEXT, ' \
+              f'address TEXT, ' \
+              f'PRIMARY KEY("link")' \
+              f')'
+        with self.CONNECTION as conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute(sql)
+                print(f'Table {table_name} successfully created!')
+            except sqlite3.Error:
                 pass

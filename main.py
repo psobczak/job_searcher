@@ -1,8 +1,9 @@
-from database_connector import DatabaseConnector
-from pages.alten import Alten
-from pages.just_join_it import JustJoinIT
+from itertools import product
+
+from config.database_connector import DatabaseConnector
+from pages.alten import Alten, ALTEN_CITIES
+from pages.just_join_it import JustJoinIT, JUST_CITIES, JUST_CATEGORIES
 from pages.nbc import NBC
-from webdriver import WebDriver
 
 if __name__ == '__main__':
 
@@ -10,25 +11,26 @@ if __name__ == '__main__':
     db = DatabaseConnector()
     db.create_connection()
 
-    # Just join IT
-    driver = WebDriver()
-    just = JustJoinIT('wroclaw', 'testing', driver=driver)
-    just.create_job_offers()
+    # # Just join IT
+    for city, category in product(JUST_CITIES, JUST_CATEGORIES):
+        just = JustJoinIT(city, category)
+        just.create_job_offers()
+        just.print_offers()
+        for offer in just.job_offers:
+            db.insert_into_offers(offer)
 
     # Alten
-    alten = Alten('wroclaw')
-    alten.create_job_offers()
+    for city in ALTEN_CITIES:
+        alten = Alten(city)
+        alten.create_job_offers()
+        alten.print_offers()
+        for offer in alten.job_offers:
+            db.insert_into_offers(offer)
 
     # NBC
-    nbc = NBC('Wroclaw')
+    nbc = NBC('Wrocław')
     nbc.create_job_offers()
-
-    for offer in just.job_offers:
-        db.insert_into_offers(offer)
-
-    for offer in alten.job_offers:
-        db.insert_into_offers(offer)
-
+    nbc.print_offers()
     for offer in nbc.job_offers:
         db.insert_into_offers(offer)
 

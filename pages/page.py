@@ -55,12 +55,8 @@ class Page:
         page = self._get_page(self.complete_url)
         return page.find_all(tag, class_=[*args])
 
-    def _find_job_offer_links(self):
-        """
-        Extracts job offer links from containers. Returns a list of links
-        :return: List of https links
-        """
-        ...
+    def _get_job_offer_information(self, container):
+        pass
 
     def create_job_offers(self):
         ...

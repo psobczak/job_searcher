@@ -11,24 +11,14 @@ class NBC(Page):
         super().__init__()
         self.city = city
         self.complete_url = f'https://www.nbc.com.pl/?lang=pl&post_type=offer&s={self.city}'
-        self.job_offer_links = self._find_job_offer_links()
-
-    def _find_job_offer_links(self):
-        """Extracts job offer links from containers. Returns a list of links"""
-        links = []
-        job_offer_containers = self._get_elements_containers('div', 'col-sm-8', 'post', 'item', 'job-offer')
-        for container in job_offer_containers:
-            link = container.select_one('a.link-absolute')['href']
-            links.append(link)
-        return links
 
     def create_job_offers(self):
-        for link in self.job_offer_links:
-            page = self._get_page(link)
-
-            title = page.select_one('h1.banner-title').text
-            min_salary = 0
-            max_salary = 0
-
-            job_offer = JobOffer(title, 'nbc', min_salary, max_salary, link)
+        containers = self._get_elements_containers('div', 'col-sm-8', 'post', 'item', 'job-offer')
+        for container in containers:
+            job_offer = self._get_job_offer_information(container)
             self._add_job_offer(job_offer)
+
+    def _get_job_offer_information(self, container) -> JobOffer:
+        title = container.select_one('article.text-center.animate-this > h2').text
+        link = container.select_one('article.text-center.animate-this > a')['href']
+        return JobOffer(title, 'NBC', link)
