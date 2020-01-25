@@ -61,5 +61,5 @@ class JustJoinIT(Page):
             else:
                 max_salary, min_salary = 0, 0
 
-            job_offer = JobOffer(title, min_salary, max_salary, link)
-            self.job_offers.append(job_offer)
+            job_offer = JobOffer(title, 'just join it', min_salary, max_salary, link)
+            self._add_job_offer(job_offer)

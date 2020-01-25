@@ -31,8 +31,8 @@ class Alten(Page):
                 title = page.select_one('h3.elementor-icon-box-title > span').text
                 min_salary = 0
                 max_salary = 0
-                job_offer = JobOffer(title, min_salary, max_salary, link)
-                self.job_offers.append(job_offer)
+                job_offer = JobOffer(title, 'alten', min_salary, max_salary, link)
+                self._add_job_offer(job_offer)
             except AttributeError:
                 pass
         return self
