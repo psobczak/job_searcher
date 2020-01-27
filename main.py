@@ -1,9 +1,15 @@
+import logging
 from itertools import product
 
 from config.database_connector import DatabaseConnector
 from pages.alten import Alten, ALTEN_CITIES
 from pages.just_join_it import JustJoinIT, JUST_CITIES, JUST_CATEGORIES
 from pages.nbc import NBC
+
+# Logging config
+log_format = '[%(asctime)s]: {%(module)s, %(funcName)s:%(lineno)d - %(message)s}'
+logging.basicConfig(format=log_format, level=logging.DEBUG,
+                    handlers=[logging.FileHandler('job_offers.log', 'w', 'utf-8')])
 
 if __name__ == '__main__':
 
@@ -34,4 +40,5 @@ if __name__ == '__main__':
     for offer in nbc.job_offers:
         db.insert_into_offers(offer)
 
+    print('Skipped:', db.skipped)
     db.close_connection()

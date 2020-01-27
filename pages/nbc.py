@@ -21,4 +21,4 @@ class NBC(Page):
     def _get_job_offer_information(self, container) -> JobOffer:
         title = container.select_one('article.text-center.animate-this > h2').text
         link = container.select_one('article.text-center.animate-this > a')['href']
-        return JobOffer(title, 'NBC', link)
+        return JobOffer(title, 'NBC', link, city=self.city)

@@ -17,7 +17,7 @@ class Page(abc.ABC):
         self.job_offers = []
         self.city = ""
         self.category = ""
-        logging.info(f'Creating {str(self)}')
+        logging.info(f'Creating {self.__class__.__name__}')
 
     @staticmethod
     def _get_page(url, driver=None):
@@ -54,6 +54,7 @@ class Page(abc.ABC):
         :return: List of HTML nodes
         """
         page = self._get_page(self.complete_url)
+        logging.info(f'Finding all elements with tag {tag} and classes {[*args]}')
         return page.find_all(tag, class_=[*args])
 
     @abc.abstractmethod
@@ -84,4 +85,4 @@ class Page(abc.ABC):
         return self.job_offers[item]
 
     def __repr__(self):
-        return f'{self.__class__.__name__}, job offers - {self.__len__()}'
+        return f'{self.__class__.__name__} with {vars(self)}'

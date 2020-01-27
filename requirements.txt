@@ -1,3 +1,4 @@
+djangorestframework
 beautifulsoup4==4.8.2
 bs4==0.0.1
 certifi==2019.11.28
@@ -9,5 +10,5 @@ idna==2.8
 requests==2.22.0
 selenium==3.141.0
 soupsieve==1.9.5
-urllib3==1.25.7
+urllib3==1.25.8
 webdriver-manager==2.3.0

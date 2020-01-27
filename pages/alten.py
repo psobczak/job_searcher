@@ -28,5 +28,5 @@ class Alten(Page):
     def _get_job_offer_information(self, container):
         title = container.select_one('h3.elementor-post__title > a').text.strip()
         link = container.select_one('h3.elementor-post__title > a')['href']
-        address = container.select_one('div.elementor-post__excerpt > p').text.split('\n')[1].split(' ')[0]
-        return JobOffer(title, 'Alten', link, address=address)
+        # address = container.select_one('div.elementor-post__excerpt > p').text.split('\n')[1].split(' ')[0]
+        return JobOffer(title, 'Alten', link, city=self.city.title())
