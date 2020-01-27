@@ -16,7 +16,6 @@ class DatabaseConnector:
         self.path = self.DATABASE_PATH
         self.connection = self.create_connection()
         self.create_table()
-        self.skipped = 0
 
     def create_connection(self):
         if self.CONNECTION is None:

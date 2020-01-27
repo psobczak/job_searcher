@@ -40,5 +40,4 @@ if __name__ == '__main__':
     for offer in nbc.job_offers:
         db.insert_into_offers(offer)
 
-    print('Skipped:', db.skipped)
     db.close_connection()
