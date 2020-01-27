@@ -20,7 +20,7 @@ class DatabaseConnector:
     def create_connection(self):
         if self.CONNECTION is None:
             try:
-                self.CONNECTION = sqlite3.connect(self.DATABASE_PATH)
+                self.CONNECTION = sqlite3.connect(self.DATABASE_PATH, check_same_thread=False)
                 logging.info(f'Connection to database established')
             except ConnectionError:
                 logging.info('Connection could not be established')
@@ -86,3 +86,45 @@ class DatabaseConnector:
                 logging.info(f'Table {table_name} successfully created!')
             except sqlite3.Error:
                 pass
+
+    def get_all_offers(self):
+        offers = []
+        with self.CONNECTION as conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute('SELECT rowid, offers.* FROM offers')
+                data = cursor.fetchall()
+                for i, offer in enumerate(data):
+                    offers.append(self._prepare_json_offer(offer, i))
+            except sqlite3.Error:
+                pass
+        return offers
+
+    def get_offers_with_category(self, category):
+        categories = []
+        with self.CONNECTION as conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute('select * from offers where category = ?', [category])
+                data = cursor.fetchall()
+                for i, category_raw in enumerate(data):
+                    categories.append(self._prepare_json_offer(category_raw, i))
+            except sqlite3.Error:
+                logging.error(sqlite3.Error)
+        return categories
+
+    @staticmethod
+    def _prepare_json_offer(offer, offer_id):
+        return {
+            'id': offer_id,
+            'title': offer[0],
+            'source': offer[1],
+            'min_salary': offer[2],
+            'max_salary': offer[3],
+            'link': offer[4],
+            'employer': offer[5],
+            'address': offer[6],
+            'city': offer[7],
+            'category': offer[8],
+            'posted': offer[9]
+        }

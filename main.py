@@ -17,6 +17,8 @@ if __name__ == '__main__':
     db = DatabaseConnector()
     db.create_connection()
 
+    print(db.get_offers_with_category('testing'))
+    exit(1)
     # # Just join IT
     for city, category in product(JUST_CITIES, JUST_CATEGORIES):
         just = JustJoinIT(city, category)
