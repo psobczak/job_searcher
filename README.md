@@ -2,10 +2,10 @@
 Web scraper that aggregates IT job offers in one place. 
 
 ## Things to do:
-- [x] _Create first iteration of REST API [27.01.2020]_
+- [x] Create first iteration of REST API [27.01.2020]
 - [] Add NoFluffJobs support
 - [] Add BulldogJob support
-- [] Migrate to MongoDB 
+- [x] Migrate to MongoDB [30.01.2020]
 - [] Find a way to crawl multiple pages in parallel
 - [] Create front that consumes api
 
