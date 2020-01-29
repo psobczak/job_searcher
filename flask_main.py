@@ -1,11 +1,14 @@
 from flask import Flask, jsonify, make_response
-
-from config.database_connector import DatabaseConnector
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
+app.config['MONGO_URI'] = "mongodb://localhost:27017/job"
+mongo = PyMongo(app)
 
-db = DatabaseConnector()
-db.create_connection()
+
+# db = DatabaseConnector()
+# db.create_connection()
+# d = Database('job', 'offers')
 
 
 @app.errorhandler(404)
@@ -15,7 +18,8 @@ def not_found(error):
 
 @app.route('/offers', methods=['GET'])
 def get_offers():
-    return jsonify({'offers': db.get_all_offers()})
+    offers = [offer for offer in mongo.db.offers.find()]
+    return jsonify({'offers': offers})
 
 
 @app.route('/offers/<int:offer_id>', methods=['GET'])

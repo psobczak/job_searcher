@@ -45,8 +45,8 @@ class JustJoinIT(Page):
         salary = container.select_one('span.salary').text
         salary_raw = re.match(r'(\d*\s\d*)\s+-\s+(\d*\s\d*)', salary)
         if salary_raw is not None:
-            max_salary = salary_raw.group(2)
-            min_salary = salary_raw.group(1)
+            max_salary = int(salary_raw.group(2).replace(' ', ''))
+            min_salary = int(salary_raw.group(1).replace(' ', ''))
         else:
             max_salary, min_salary = 0, 0
 

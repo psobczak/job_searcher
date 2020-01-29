@@ -24,3 +24,9 @@ class JobOffer:
         return f'{self.__class__.__name__}(title={self.title!r}, source={self.source!r} min_salary={self.min!r}, ' \
                f'max_salary={self.max!r}, link={self.link!r}, employer={self.employer!r}, address={self.address!r}, ' \
                f'city={self.city!r}, category={self.category!r}) '
+
+    def __getitem__(self, item):
+        if item in vars(self).keys():
+            return vars(self)[item]
+        else:
+            raise KeyError
