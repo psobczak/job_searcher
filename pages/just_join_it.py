@@ -54,6 +54,7 @@ class JustJoinIT(Page):
         address = container.select_one('span.company-address').text.strip('\ue0c8\n\n')
         link = self.base_url + container.select_one('a.item')['href']
 
-        job_offer = JobOffer(title, 'Just join IT', link, min_salary=min_salary, max_salary=max_salary, address=address,
+        job_offer = JobOffer(title, 'Just join IT', link, minimal_salary=min_salary, maximal_salary=max_salary,
+                             address=address,
                              employer=employer, city=self.city, category=self.category)
         return job_offer
