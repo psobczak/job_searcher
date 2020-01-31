@@ -28,13 +28,13 @@ def get_offers():
     return jsonify({'offers': offers})
 
 
-@app.route('/offers/category/<string:category>')
+@app.route('/offers/category/<string:category>', methods=['GET'])
 def get_all_category_offers(category: str):
     offers = [_to_dict(offer) for offer in mongo.db.offers.find({'category': category})]
     return jsonify({'offers': offers})
 
 
-@app.route('/offers/from/<string:city>')
+@app.route('/offers/from/<string:city>', methods=['GET'])
 def get_offers_from_city(city: str):
     offers = [_to_dict(offer) for offer in mongo.db.offers.find({'city': city})]
     return jsonify({'offers': offers})

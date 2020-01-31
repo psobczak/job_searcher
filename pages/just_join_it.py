@@ -4,7 +4,7 @@ from job_offer import JobOffer
 from pages.page import Page
 
 JUST_CITIES = [
-    'waraszawa', 'krakow', 'wroclaw', 'poznan', 'trojmiasto', 'remote', 'world',
+    'warszawa', 'krakow', 'wroclaw', 'poznan', 'trojmiasto', 'remote', 'world',
     'bialystok', 'bielsko-biala', 'bydgoszcz', 'czestochowa', 'gliwice', 'katowice',
     'kielce', 'lublin', 'lodz', 'olsztyn', 'opole', 'torun', 'rzeszow', 'szczecin', 'zielona_gora'
 ]

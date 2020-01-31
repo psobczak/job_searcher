@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -28,9 +30,10 @@ class WebDriver:
         self.driver.quit()
         return None
 
-    def get_page_source(self, url: str) -> str:
+    def get_page_source(self, url: str, locator) -> str:
         try:
             self.driver.get(url)
+            elem = WebDriverWait(self.driver, 10).until(EC.visibility_of_all_elements_located(locator))
             return self.driver.page_source
-        except:
-            ...
+        except TimeoutError:
+            print('Out of time!')

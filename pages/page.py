@@ -3,6 +3,7 @@ import logging
 
 import requests
 from bs4 import BeautifulSoup as soup
+from selenium.webdriver.common.by import By
 
 from job_offer import JobOffer
 
@@ -12,23 +13,22 @@ class Page(abc.ABC):
     Parent class for all job offer pages
     """
 
-    def __init__(self):
+    def __init__(self, driver=None):
         self.complete_url = None
         self.job_offers = []
         self.city = ""
         self.category = ""
+        self.driver = driver
         logging.info(f'Creating {self.__class__.__name__}')
 
-    @staticmethod
-    def _get_page(url, driver=None):
+    def _get_page(self, url, locator=None):
         """
         Reads website url and returns parsed HTML code
         :param url: str
-        :param driver: WebDriver
         :return: bs4 parsed HTML code
         """
-        if driver is not None:
-            r = driver.get_page_source(url)
+        if self.driver is not None:
+            r = self.driver.get_page_source(url, locator)
         else:
             r = requests.get(url).text
             logging.info(f'Parsing and returning HTML content of {url}')
@@ -53,7 +53,7 @@ class Page(abc.ABC):
         :param args: CSS classes
         :return: List of HTML nodes
         """
-        page = self._get_page(self.complete_url)
+        page = self._get_page(self.complete_url, (By.CSS_SELECTOR, 'div.list-item'))
         logging.info(f'Finding all elements with tag {tag} and classes {[*args]}')
         return page.find_all(tag, class_=[*args])
 
