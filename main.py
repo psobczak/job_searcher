@@ -6,9 +6,9 @@ from config.webdriver import WebDriver
 from pages.alten import Alten, ALTEN_CITIES
 from pages.just_join_it import JustJoinIT, JUST_CITIES, JUST_CATEGORIES
 from pages.nbc import NBC
-# Logging config
-from pages.nofluffjobs import NoFluffJobs
+from pages.nofluffjobs import NoFluffJobs, FLUFF_CITIES, FLUFF_CATEGORIES
 
+# Logging config
 log_format = '[%(asctime)s]: {%(module)s, %(funcName)s:%(lineno)d - %(message)s}'
 logging.basicConfig(format=log_format, level=logging.DEBUG,
                     handlers=[logging.FileHandler('job_offers.log', 'w', 'utf-8')])
@@ -19,13 +19,12 @@ if __name__ == '__main__':
     d = Database('job', 'offers')
 
     # NoFluffJobs
+    # WebDriver instance is required to load page with js
     driver = WebDriver()
-    fluff = NoFluffJobs('warszawa', 'testing', driver=driver)
-    fluff.create_job_offers()
-
-    fluff.print_offers()
-    for offer in fluff.job_offers:
-        d.insert_job_offer(offer)
+    for city, category in product(FLUFF_CITIES, FLUFF_CATEGORIES):
+        fluff = NoFluffJobs(city, category, driver=driver)
+        fluff.create_job_offers()
+        fluff.print_offers()
     driver.quit_driver()
 
     # # Just join IT
