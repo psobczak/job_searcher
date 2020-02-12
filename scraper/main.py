@@ -2,11 +2,9 @@ import logging
 from itertools import product
 
 from config.mongo import Database
-from config.webdriver import WebDriver
 from pages.alten import Alten, ALTEN_CITIES
 from pages.just_join_it import JustJoinIT, JUST_CITIES, JUST_CATEGORIES
 from pages.nbc import NBC
-from pages.nofluffjobs import NoFluffJobs, FLUFF_CITIES, FLUFF_CATEGORIES
 
 # Logging config
 log_format = '[%(asctime)s]: {%(module)s, %(funcName)s:%(lineno)d - %(message)s}'
@@ -17,15 +15,6 @@ if __name__ == '__main__':
 
     # Prepare database
     d = Database('job', 'offers')
-
-    # NoFluffJobs
-    # WebDriver instance is required to load page with js
-    driver = WebDriver()
-    for city, category in product(FLUFF_CITIES, FLUFF_CATEGORIES):
-        fluff = NoFluffJobs(city, category, driver=driver)
-        fluff.create_job_offers()
-        fluff.print_offers()
-    driver.quit_driver()
 
     # # Just join IT
     for city, category in product(JUST_CITIES, JUST_CATEGORIES):
@@ -44,7 +33,7 @@ if __name__ == '__main__':
             d.insert_job_offer(offer)
 
     # NBC
-    nbc = NBC('Wrocław')
+    nbc = NBC('Wrocław'.encode('utf-8'))
     nbc.create_job_offers()
     nbc.print_offers()
     for offer in nbc.job_offers:

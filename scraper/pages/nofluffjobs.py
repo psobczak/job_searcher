@@ -29,7 +29,7 @@ class NoFluffJobs(Page):
             self._add_job_offer(job_offer)
 
     def _get_job_offer_information(self, container) -> JobOffer:
-        title = container.select_one('h4.posting-title__position').text
+        title = container.select_one('h4.posting-title__position').text.strip()
         link = self.base_url + container.select_one('a.posting-list-item')['href']
         employer = container.select_one('span.posting-title__company').text.strip()[3:]
         return JobOffer(title, 'NoFluffJobs', link, city=self.city, category=self.category, employer=employer)

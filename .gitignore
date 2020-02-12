@@ -5,5 +5,5 @@
 .idea/modules.xml
 .idea/vcs.xml
 __pycache__/
-pages/__pycache__/
+scraper/pages/__pycache__/
 venv/

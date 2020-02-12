@@ -1,6 +1,6 @@
 import unittest
 
-from pages.just_join_it import JustJoinIT
+from scraper.pages import JustJoinIT
 
 
 class TestJustJoinIt(unittest.TestCase):

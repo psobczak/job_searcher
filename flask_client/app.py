@@ -2,13 +2,12 @@ from flask import Flask, jsonify
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/job"
+app.config["MONGO_URI"] = "mongodb://db:27017/job"
 mongo = PyMongo(app)
 
 
-def _to_dict(mongo_document) -> dict:
+def _to_dict(mongo_document):
     return {
-        'id': mongo_document['_id'],
         'title': mongo_document['title'],
         'source': mongo_document['source'],
         'link': mongo_document['link'],
@@ -29,16 +28,16 @@ def get_offers():
 
 
 @app.route('/offers/category/<string:category>', methods=['GET'])
-def get_all_category_offers(category: str):
+def get_all_category_offers(category):
     offers = [_to_dict(offer) for offer in mongo.db.offers.find({'category': category})]
     return jsonify({'offers': offers})
 
 
 @app.route('/offers/from/<string:city>', methods=['GET'])
-def get_offers_from_city(city: str):
+def get_offers_from_city(city):
     offers = [_to_dict(offer) for offer in mongo.db.offers.find({'city': city})]
     return jsonify({'offers': offers})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

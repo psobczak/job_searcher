@@ -3,9 +3,8 @@ import logging
 
 import requests
 from bs4 import BeautifulSoup as soup
-from selenium.webdriver.common.by import By
-
 from job_offer import JobOffer
+from selenium.webdriver.common.by import By
 
 
 class Page(abc.ABC):
@@ -31,7 +30,7 @@ class Page(abc.ABC):
             r = self.driver.get_page_source(url, locator)
         else:
             r = requests.get(url).text
-            logging.info(f'Parsing and returning HTML content of {url}')
+            logging.info(f'Parsing and returning HTML content of {self}')
         return soup(r, 'html.parser')
 
     def _add_job_offer(self, job_offer):
@@ -76,7 +75,7 @@ class Page(abc.ABC):
 
         if len(self.job_offers) != 0:
             for i, job_offer in enumerate(self.job_offers):
-                print(f'{i + 1}. {job_offer}')
+                print(f'{i + 1}. {job_offer}'.encode('utf-8'))
 
     def __len__(self):
         return len(self.job_offers)
