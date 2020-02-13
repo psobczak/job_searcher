@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href=" {{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+{% for offer in offers %}
+<div class="offer_container">
+    <p> {{ offer.title }} </p>
+    <p> {{ offer.category }} </p>
+</div>
+{% endfor %}
+</body>
+</html>
