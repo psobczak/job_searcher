@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %}
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <div class="offer">
+            <a href="{{ offer.link }}">
+                <div class="row">
+                    <div class="col-2">
+                        {{ offer.source }} {% if offer.source == 'Just join IT' %}
+                        <img alt="" src="{{ url_for('static', filename='just.png') }}"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-10">
+                        <h4>{{ offer.title }}</h4>
+                        {% if offer.minimal_salary and offer.maximal_salary %}
+                        <p>Salary: {{ offer.minimal_salary }} - {{ offer.maximal_salary }}</p>
+                        {% endif %}
+                        <p>City: {{ offer.city | title}}</p>
+                        {% if offer.category %}
+                        <p>Category: {{ offer.category | title }}</p>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </a>
+        </div>
+    </li>
+</ul>
+{% endblock %}
