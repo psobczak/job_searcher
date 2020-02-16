@@ -33,7 +33,7 @@ if __name__ == '__main__':
             d.insert_job_offer(offer)
 
     # NBC
-    nbc = NBC('Wrocław'.encode('utf-8'))
+    nbc = NBC('Wroclaw'.encode('utf-8'))
     nbc.create_job_offers()
     nbc.print_offers()
     for offer in nbc.job_offers:
