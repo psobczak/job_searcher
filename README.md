@@ -26,7 +26,7 @@ can find REST API for IT related job offers.
 - [] Add BulldogJob support
 - [x] ~~Migrate to MongoDB~~ [30.01.2020]
 - [] Find a way to crawl multiple pages in parallel
-- [] Create front that consumes api
+- [x] Create front that consumes api [16.02.2020]
 - [x] ~~Create Dockerfile for each program part~~ [13.02.2020]
 - [x] ~~Create docker-compose.yaml~~ [13.02.2020]
 
